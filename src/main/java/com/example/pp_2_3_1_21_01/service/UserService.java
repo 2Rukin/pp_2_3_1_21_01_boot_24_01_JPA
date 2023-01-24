@@ -1,7 +1,7 @@
 package com.example.pp_2_3_1_21_01.service;
 
-import com.example.pp_2_3_1_21_01.repositories.UserDao;
 import com.example.pp_2_3_1_21_01.model.User;
+import com.example.pp_2_3_1_21_01.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,43 +12,37 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
-    private final UserDao userDao;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserDao userDao) {
-
-        this.userDao = userDao;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
 
-    @Transactional(readOnly = true)
     public List<User> getUsersList() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
-
 
     @Transactional
     public void addUser(User user) {
-        userDao.save(user);
-    }
-
-
-    @Transactional
-    public User getUserById(Long id) {
-        Optional<User> user = userDao.findById(id);
-        return user.orElse(null);
+        userRepository.save(user);
     }
 
     @Transactional
-    public void updateUser(Long id, User updateUser) {
+    public User getUserById(int id) {
+        Optional<User> findUser = userRepository.findById((long) id);
+        return findUser.orElse(null);
+    }
+
+    @Transactional
+    public void updateUser(int id, User updateUser) {
         updateUser.setId(id);
-        userDao.save(updateUser);
-
-
+        userRepository.save(updateUser);
     }
 
     @Transactional
-    public void deleteUser(Long id) {
-        userDao.deleteById(id);
+    public void deleteUser(int id) {
+        userRepository.deleteById((long) id);
     }
 }

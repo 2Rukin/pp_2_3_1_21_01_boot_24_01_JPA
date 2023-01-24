@@ -9,7 +9,7 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 //    @Column(name = "name")
     private String name;
 //    @Column(name = "lastName")
@@ -25,11 +25,11 @@ public class User {
         this.age = age;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -60,13 +60,14 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return getAge() == user.getAge() && getId().equals(user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getLastName(), user.getLastName());
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getLastName(), getAge());
+        return Objects.hash(id, name, lastName, age);
     }
 
     @Override
