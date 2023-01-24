@@ -14,7 +14,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/")
     public String printUsersList(Model model) {
         model.addAttribute("users", userService.getUsersList());
         return "users";
